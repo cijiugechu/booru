@@ -1,11 +1,11 @@
 [package]
-name = "booru-rs"
+name = "booru"
 version = "0.2.6"
 edition = "2021"
 description = "An async Booru client for Rust"
 license = "MIT/Apache-2.0"
-documentation = "https://docs.rs/booru-rs"
-repository = "https://github.com/ajiiisai/booru-rs"
+documentation = "https://docs.rs/booru"
+repository = "https://github.com/cijiugechu/booru"
 readme = "README.md"
 
 [profile.dev]

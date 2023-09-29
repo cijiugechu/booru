@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod safebooru {
-    use booru_rs::{
+    use booru::{
         client::{generic::Sort, safebooru::SafebooruClient, Client},
         model::safebooru::SafebooruRating,
     };

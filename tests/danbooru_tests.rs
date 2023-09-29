@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod danbooru {
-    use booru_rs::{
+    use booru::{
         client::{danbooru::DanbooruClient, generic::Sort, Client},
         model::danbooru::DanbooruRating,
     };

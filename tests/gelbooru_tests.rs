@@ -1,5 +1,5 @@
 mod gelbooru {
-    use booru_rs::{
+    use booru::{
         client::{gelbooru::GelbooruClient, generic::*, Client},
         model::gelbooru::GelbooruRating,
     };

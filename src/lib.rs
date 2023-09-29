@@ -1,6 +1,6 @@
 //! ### Usage
 //! ```
-//! use booru_rs::{danbooru::{DanbooruClient, DanbooruRating}, Sort, Client};
+//! use booru::{danbooru::{DanbooruClient, DanbooruRating}, Sort, Client};
 //!
 //! #[tokio::main]
 //! async fn main() {

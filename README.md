@@ -1,6 +1,8 @@
 ![ci-badge][] [![crates.io version]][crates.io link] 
-# booru-rs
-An async Booru client for Rust
+# `booru`
+An async Booru client for Rust.
+
+> Note: This project has been forked from [booru-rs](https://github.com/ajiiisai/booru-rs) since September of 2023, but a lot has changed.
 
 ##  Overview
 The client currently supports:
@@ -13,7 +15,7 @@ The client currently supports:
 - [ ] More... ?
 
 ## Example
-Remember to bring the `Client` trait into scope with `use booru_rs::client::Client;`
+Remember to bring the `Client` trait into scope with `use booru::client::Client;`
 ```rust
 let posts = GelbooruClient::builder()
     .tag("kafuu_chino")
@@ -46,6 +48,6 @@ let posts = GelbooruClient::builder_with_http_client(http_client_builder)
     .expect("There was an error retrieving posts from the API");
 ```
 
-[ci-badge]: https://img.shields.io/github/actions/workflow/status/ajiiisai/booru-rs/ci.yml?branch=main
-[crates.io link]: https://crates.io/crates/booru-rs
-[crates.io version]: https://img.shields.io/crates/v/booru-rs.svg?style=flat-square
+[ci-badge]: https://img.shields.io/github/actions/workflow/status/cijiugechu/booru/ci.yml?branch=main
+[crates.io link]: https://crates.io/crates/booru
+[crates.io version]: https://img.shields.io/crates/v/booru.svg?style=flat-square
