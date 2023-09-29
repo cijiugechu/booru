@@ -4,6 +4,7 @@ mod danbooru {
         client::{danbooru::DanbooruClient, generic::Sort, Client},
         model::danbooru::DanbooruRating,
     };
+    use reqwest::Proxy;
 
     #[tokio::test]
     async fn get_posts_with_tag() {
@@ -116,6 +117,22 @@ mod danbooru {
             "15a1b49c26f5c684807a2f0b838f9e4c",
             post.unwrap().md5.unwrap()
         );
+    }
+
+    #[tokio::test]
+    async fn builder_with_extra_http_config() {
+        let http_client_builder =
+            reqwest::ClientBuilder::new().proxy(Proxy::http("http://127.0.0.1:7890").unwrap());
+
+        let posts = DanbooruClient::builder_with_http_client(http_client_builder)
+            .default_url("https://testbooru.donmai.us")
+            .tag("kafuu_chino")
+            .build()
+            .get()
+            .await;
+
+        assert!(posts.is_ok());
+        assert!(!posts.unwrap().is_empty());
     }
 
     #[test]

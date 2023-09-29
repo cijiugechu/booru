@@ -27,6 +27,23 @@ let posts = GelbooruClient::builder()
     .get()
     .await
     .expect("There was an error retrieving posts from the API");
+
+// If you want to customize http client, you can use `builder_with_http_client`:
+let http_client_builder = reqwest::ClientBuilder::new()
+                          .proxy(reqwest::Proxy::http("http://127.0.0.1:7890").unwrap());
+
+let posts = GelbooruClient::builder_with_http_client(http_client_builder)
+    .tag("kafuu_chino")
+    .tag("2girls")
+    .rating(GelbooruRating::General)
+    .sort(GelbooruSort::Score)
+    .limit(5)
+    .random(true)
+    .blacklist_tag(GelbooruRating::Explicit)
+    .build()
+    .get()
+    .await
+    .expect("There was an error retrieving posts from the API");
 ```
 
 [ci-badge]: https://img.shields.io/github/actions/workflow/status/ajiiisai/booru-rs/ci.yml?branch=main

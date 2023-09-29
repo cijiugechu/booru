@@ -35,6 +35,22 @@ pub trait Client: From<ClientBuilder<Self>> + Any {
         ClientBuilder::new()
     }
 
+    fn builder_with_http_client(
+        http_client_builder: reqwest::ClientBuilder,
+    ) -> ClientBuilder<Self> {
+        ClientBuilder {
+            client: http_client_builder
+                .build()
+                .expect("fatal error: cannot build http client with wrong configuration!"),
+            key: None,
+            user: None,
+            tags: vec![],
+            limit: 100,
+            url: Self::URL.to_string(),
+            _marker: std::marker::PhantomData,
+        }
+    }
+
     async fn get_by_id(&self, id: u32) -> Result<Self::Post, reqwest::Error>;
     async fn get(&self) -> Result<Vec<Self::Post>, reqwest::Error>;
 }
