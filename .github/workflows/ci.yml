@@ -13,15 +13,12 @@ jobs:
         name:
           - stable
           - beta
-          - nightly
           - Windows
           - MacOS
 
         include:
           - name: beta
             toolchain: beta
-          - name: nightly
-            toolchain: nightly
           - name: Windows
             os: windows-latest
           - name: MacOS
