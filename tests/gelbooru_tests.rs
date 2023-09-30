@@ -97,6 +97,14 @@ mod gelbooru {
     }
 
     #[tokio::test]
+    async fn get_popular_posts() {
+        let posts = GelbooruClient::builder().build().get_popular().await;
+
+        assert!(posts.is_ok());
+        assert!(!posts.unwrap().is_empty());
+    }
+
+    #[tokio::test]
     async fn get_post_by_id() {
         let post = GelbooruClient::builder().build().get_by_id(7898595).await;
 

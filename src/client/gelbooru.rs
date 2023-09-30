@@ -64,4 +64,27 @@ impl Client for GelbooruClient {
 
         Ok(response.posts)
     }
+
+    /// retrieve the most top rated posts
+    async fn get_popular(&self) -> Result<Vec<GelbooruPost>, reqwest::Error> {
+        let builder = &self.0;
+        let url = builder.url.as_str();
+        let response = builder
+            .client
+            .get(format!("{url}/index.php"))
+            .query(&[
+                ("page", "dapi"),
+                ("s", "post"),
+                ("q", "index"),
+                ("limit", builder.limit.to_string().as_str()),
+                ("tags", "sort:score:desc"),
+                ("json", "1"),
+            ])
+            .send()
+            .await?
+            .json::<GelbooruResponse>()
+            .await?;
+
+        Ok(response.posts)
+    }
 }

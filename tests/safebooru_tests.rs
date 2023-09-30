@@ -97,6 +97,14 @@ mod safebooru {
     }
 
     #[tokio::test]
+    async fn get_popular_posts() {
+        let posts = SafebooruClient::builder().build().get_popular().await;
+
+        assert!(posts.is_ok());
+        assert!(!posts.unwrap().is_empty());
+    }
+
+    #[tokio::test]
     async fn get_post_by_id() {
         let post = SafebooruClient::builder().build().get_by_id(4348760).await;
 

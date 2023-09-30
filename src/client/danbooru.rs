@@ -65,4 +65,21 @@ impl Client for DanbooruClient {
 
         Ok(response)
     }
+
+    /// retrieve the most top rated posts
+    async fn get_popular(&self) -> Result<Vec<Self::Post>, reqwest::Error> {
+        let builder = &self.0;
+        let url = builder.url.as_str();
+        let response = builder
+            .client
+            .get(format!("{url}/explore/posts/popular.json"))
+            .headers(get_headers())
+            .query(&[("limit", builder.limit.to_string().as_str())])
+            .send()
+            .await?
+            .json::<Vec<DanbooruPost>>()
+            .await?;
+
+        Ok(response)
+    }
 }

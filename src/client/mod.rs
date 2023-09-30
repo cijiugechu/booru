@@ -53,6 +53,7 @@ pub trait Client: From<ClientBuilder<Self>> + Any {
 
     async fn get_by_id(&self, id: u32) -> Result<Self::Post, reqwest::Error>;
     async fn get(&self) -> Result<Vec<Self::Post>, reqwest::Error>;
+    async fn get_popular(&self) -> Result<Vec<Self::Post>, reqwest::Error>;
 }
 
 impl<T: Client + Any> ClientBuilder<T> {

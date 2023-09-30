@@ -120,6 +120,19 @@ mod danbooru {
     }
 
     #[tokio::test]
+    async fn get_popular_posts() {
+        let posts = DanbooruClient::builder()
+            .default_url("https://testbooru.donmai.us")
+            .build()
+            .get_popular()
+            .await;
+
+        assert!(posts.is_ok());
+        // yes, it is empty in terms of testbooru
+        assert!(posts.unwrap().is_empty());
+    }
+
+    #[tokio::test]
     async fn builder_with_extra_http_config() {
         let http_client_builder =
             reqwest::ClientBuilder::new().proxy(Proxy::http("http://127.0.0.1:7890").unwrap());

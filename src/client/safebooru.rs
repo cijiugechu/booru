@@ -63,4 +63,25 @@ impl Client for SafebooruClient {
             .json::<Vec<SafebooruPost>>()
             .await?)
     }
+
+    /// retrieve the most top rated posts
+    async fn get_popular(&self) -> Result<Vec<Self::Post>, reqwest::Error> {
+        let builder = &self.0;
+        let url = builder.url.as_str();
+        Ok(builder
+            .client
+            .get(format!("{url}/index.php"))
+            .query(&[
+                ("page", "dapi"),
+                ("s", "post"),
+                ("q", "index"),
+                ("limit", builder.limit.to_string().as_str()),
+                ("tags", "sort:score:desc"),
+                ("json", "1"),
+            ])
+            .send()
+            .await?
+            .json::<Vec<SafebooruPost>>()
+            .await?)
+    }
 }
