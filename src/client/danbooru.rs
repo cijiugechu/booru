@@ -5,7 +5,7 @@ use async_trait::async_trait;
 use reqwest::{header, header::HeaderMap};
 
 // This is only here because of Danbooru, thanks Danbooru, really cool :)
-pub fn get_headers() -> HeaderMap {
+fn get_headers() -> HeaderMap {
     let mut headers = header::HeaderMap::new();
     headers.insert(
         header::USER_AGENT,
