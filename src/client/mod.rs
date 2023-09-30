@@ -87,9 +87,6 @@ impl<T: Client + Any> ClientBuilder<T> {
 
     // REFACTOR: This can probably be cleaned up.
     /// Add the client compatible rating. Will panic if the rating is not compatible.
-    /// - [`DanbooruRating`](crate::model::DanbooruRating) for DanbooruClient
-    /// - [`GelbooruRating`](crate::model::GelbooruRating) for GelbooruClient
-    /// - [`SafebooruRating`](crate::model::SafebooruRating) for SafebooruClient
     pub fn rating<R: Into<Rating>>(mut self, rating: R) -> Self {
         let rating_tag = match rating.into() {
             Rating::Danbooru(rating) => {
