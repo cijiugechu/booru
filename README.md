@@ -11,8 +11,6 @@ The client currently supports:
 - [x] Danbooru
 - [ ] Konachan
 - [ ] R34
-- [ ] 3DBooru
-- [ ] More... ?
 
 ## Example
 Remember to bring the `Client` trait into scope with `use booru::client::Client;`.
