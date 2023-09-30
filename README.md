@@ -15,7 +15,7 @@ The client currently supports:
 - [ ] More... ?
 
 ## Example
-Remember to bring the `Client` trait into scope with `use booru::client::Client;`
+Remember to bring the `Client` trait into scope with `use booru::client::Client;`.
 ```rust
 use booru::{
         client::{gelbooru::GelbooruClient, generic::*, Client},
