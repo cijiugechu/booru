@@ -25,3 +25,6 @@ async-trait = "0.1.73"
 
 [[example]]
 name = "get_popular"
+
+[[example]]
+name = "konachan"

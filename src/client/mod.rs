@@ -6,12 +6,14 @@ use self::{
     danbooru::DanbooruClient,
     gelbooru::GelbooruClient,
     generic::{Rating, Sort},
+    konachan::KonachanClient,
     safebooru::SafebooruClient,
 };
 
 pub mod danbooru;
 pub mod gelbooru;
 pub mod generic;
+pub mod konachan;
 pub mod safebooru;
 
 pub struct ClientBuilder<T: Client> {
@@ -112,6 +114,15 @@ impl<T: Client + Any> ClientBuilder<T> {
                     TypeId::of::<T>(),
                     TypeId::of::<SafebooruClient>(),
                     "{:?} `ClientBuilder` but tried to apply a Safebooru rating to it.",
+                    TypeId::of::<T>(),
+                );
+                format!("rating:{}", rating)
+            }
+            Rating::Konachan(rating) => {
+                assert_eq!(
+                    TypeId::of::<T>(),
+                    TypeId::of::<KonachanClient>(),
+                    "{:?} `ClientBuilder` but tried to apply a Konachan rating to it.",
                     TypeId::of::<T>(),
                 );
                 format!("rating:{}", rating)

@@ -40,3 +40,8 @@ pub mod danbooru {
     pub use crate::client::danbooru::*;
     pub use crate::model::danbooru::*;
 }
+
+pub mod konachan {
+    pub use crate::client::konachan::*;
+    pub use crate::model::konachan::*;
+}

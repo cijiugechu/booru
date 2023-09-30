@@ -9,7 +9,7 @@ The client currently supports:
 - [x] Gelbooru
 - [x] Safebooru
 - [x] Danbooru
-- [ ] Konachan
+- [x] Konachan
 - [ ] R34
 
 ## Example

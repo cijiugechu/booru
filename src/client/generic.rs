@@ -1,5 +1,6 @@
 use crate::model::{
-    danbooru::DanbooruRating, gelbooru::GelbooruRating, safebooru::SafebooruRating,
+    danbooru::DanbooruRating, gelbooru::GelbooruRating, konachan::KonachanRating,
+    safebooru::SafebooruRating,
 };
 use std::fmt;
 
@@ -7,6 +8,7 @@ pub enum Rating {
     Danbooru(DanbooruRating),
     Gelbooru(GelbooruRating),
     Safebooru(SafebooruRating),
+    Konachan(KonachanRating),
 }
 
 impl From<DanbooruRating> for Rating {
@@ -24,6 +26,12 @@ impl From<GelbooruRating> for Rating {
 impl From<SafebooruRating> for Rating {
     fn from(value: SafebooruRating) -> Self {
         Rating::Safebooru(value)
+    }
+}
+
+impl From<KonachanRating> for Rating {
+    fn from(value: KonachanRating) -> Self {
+        Rating::Konachan(value)
     }
 }
 
