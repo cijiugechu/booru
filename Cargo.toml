@@ -2,7 +2,10 @@
 name = "booru"
 version = "0.3.0"
 edition = "2021"
+authors = ["cijiugechu <cijiugechu@gmail.com>"]
 description = "An async Booru client for Rust"
+keywords = ["booru", "api", "client", "danbooru"]
+categories = ["api-bindings", "network-programming", "web-programming"]
 license = "MIT/Apache-2.0"
 documentation = "https://docs.rs/booru"
 repository = "https://github.com/cijiugechu/booru"
