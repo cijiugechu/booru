@@ -17,6 +17,11 @@ The client currently supports:
 ## Example
 Remember to bring the `Client` trait into scope with `use booru::client::Client;`
 ```rust
+use booru::{
+        client::{gelbooru::GelbooruClient, generic::*, Client},
+        model::gelbooru::GelbooruRating,
+    };
+
 let posts = GelbooruClient::builder()
     .tag("kafuu_chino")
     .tag("2girls")
