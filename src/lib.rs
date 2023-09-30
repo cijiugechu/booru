@@ -45,3 +45,8 @@ pub mod konachan {
     pub use crate::client::konachan::*;
     pub use crate::model::konachan::*;
 }
+
+pub mod rule34 {
+    pub use crate::client::rule34::*;
+    pub use crate::model::rule34::*;
+}

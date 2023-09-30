@@ -10,7 +10,7 @@ The client currently supports:
 - [x] Safebooru
 - [x] Danbooru
 - [x] Konachan
-- [ ] R34
+- [x] Rule 34
 
 ## Example
 Remember to bring the `Client` trait into scope with `use booru::client::Client;`.
