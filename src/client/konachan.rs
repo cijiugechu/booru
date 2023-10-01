@@ -2,6 +2,7 @@ use super::{Client, ClientBuilder};
 use crate::model::konachan::*;
 
 use async_trait::async_trait;
+use itoa::Buffer;
 use reqwest::{header, header::HeaderMap};
 
 fn get_headers() -> HeaderMap {
@@ -59,7 +60,7 @@ impl Client for KonachanClient {
             .get(format!("{url}/post.json"))
             .headers(get_headers())
             .query(&[
-                ("limit", builder.limit.to_string().as_str()),
+                ("limit", Buffer::new().format(builder.limit)),
                 ("tags", &tag_string),
             ])
             .send()
@@ -78,7 +79,7 @@ impl Client for KonachanClient {
             .client
             .get(format!("{url}/post/popular_recent.json"))
             .headers(get_headers())
-            .query(&[("limit", builder.limit.to_string().as_str())])
+            .query(&[("limit", Buffer::new().format(builder.limit))])
             .send()
             .await?
             .json::<Vec<KonachanPost>>()
@@ -97,9 +98,9 @@ impl Client for KonachanClient {
             .get(format!("{url}/post.json"))
             .headers(get_headers())
             .query(&[
-                ("limit", builder.limit.to_string().as_str()),
+                ("limit", Buffer::new().format(builder.limit)),
                 ("tags", &tag_string),
-                ("page", &page.to_string()),
+                ("page", Buffer::new().format(page)),
             ])
             .send()
             .await?

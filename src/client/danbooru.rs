@@ -2,6 +2,7 @@ use super::{Client, ClientBuilder};
 use crate::model::danbooru::*;
 
 use async_trait::async_trait;
+use itoa::Buffer;
 use reqwest::{header, header::HeaderMap};
 
 // This is only here because of Danbooru, thanks Danbooru, really cool :)
@@ -55,7 +56,7 @@ impl Client for DanbooruClient {
             .get(format!("{url}/posts.json"))
             .headers(get_headers())
             .query(&[
-                ("limit", builder.limit.to_string().as_str()),
+                ("limit", Buffer::new().format(builder.limit)),
                 ("tags", &tag_string),
             ])
             .send()
@@ -74,7 +75,7 @@ impl Client for DanbooruClient {
             .client
             .get(format!("{url}/explore/posts/popular.json"))
             .headers(get_headers())
-            .query(&[("limit", builder.limit.to_string().as_str())])
+            .query(&[("limit", Buffer::new().format(builder.limit))])
             .send()
             .await?
             .json::<Vec<DanbooruPost>>()
@@ -93,9 +94,9 @@ impl Client for DanbooruClient {
             .get(format!("{url}/posts.json"))
             .headers(get_headers())
             .query(&[
-                ("limit", builder.limit.to_string().as_str()),
+                ("limit", Buffer::new().format(builder.limit)),
                 ("tags", &tag_string),
-                ("page", &page.to_string()),
+                ("page", Buffer::new().format(page)),
             ])
             .send()
             .await?

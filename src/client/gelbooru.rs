@@ -1,4 +1,5 @@
 use async_trait::async_trait;
+use itoa::Buffer;
 
 use super::{Client, ClientBuilder};
 use crate::model::gelbooru::*;
@@ -30,7 +31,7 @@ impl Client for GelbooruClient {
                 ("page", "dapi"),
                 ("s", "post"),
                 ("q", "index"),
-                ("id", id.to_string().as_str()),
+                ("id", Buffer::new().format(id)),
                 ("json", "1"),
             ])
             .send()
@@ -53,7 +54,7 @@ impl Client for GelbooruClient {
                 ("page", "dapi"),
                 ("s", "post"),
                 ("q", "index"),
-                ("limit", builder.limit.to_string().as_str()),
+                ("limit", Buffer::new().format(builder.limit)),
                 ("tags", &tag_string),
                 ("json", "1"),
             ])
@@ -76,7 +77,7 @@ impl Client for GelbooruClient {
                 ("page", "dapi"),
                 ("s", "post"),
                 ("q", "index"),
-                ("limit", builder.limit.to_string().as_str()),
+                ("limit", Buffer::new().format(builder.limit)),
                 ("tags", "sort:score:desc"),
                 ("json", "1"),
             ])
@@ -100,9 +101,9 @@ impl Client for GelbooruClient {
                 ("page", "dapi"),
                 ("s", "post"),
                 ("q", "index"),
-                ("limit", builder.limit.to_string().as_str()),
+                ("limit", Buffer::new().format(builder.limit)),
                 ("tags", &tag_string),
-                ("pid", &(builder.limit * page).to_string()),
+                ("pid", Buffer::new().format(builder.limit * page)),
                 ("json", "1"),
             ])
             .send()
