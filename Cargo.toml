@@ -19,9 +19,11 @@ opt-level = 3
 
 [dependencies]
 reqwest = { version = "0.11.20", features = ["json"] }
-tokio = { version = "1", features = ["full"] }
 serde = { version = "1.0.188", features = ["derive"] }
 async-trait = "0.1.73"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }
 
 [[example]]
 name = "get_popular"
