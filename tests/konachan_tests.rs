@@ -115,6 +115,19 @@ mod konachan {
         );
     }
 
+    #[tokio::test]
+    async fn get_by_page() {
+        let posts = KonachanClient::builder()
+            .tag("kafuu_chino")
+            .limit(3)
+            .build()
+            .get_by_page(2)
+            .await;
+
+        assert!(posts.is_ok());
+        assert!(!posts.unwrap().is_empty());
+    }
+
     #[test]
     fn parse_rating_tags() {
         assert_eq!("explicit", KonachanRating::Explicit.to_string());

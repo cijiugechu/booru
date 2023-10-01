@@ -87,4 +87,29 @@ impl Client for GelbooruClient {
 
         Ok(response.posts)
     }
+
+    /// Pack the [`ClientBuilder`] and sent the request to the API to retrieve the posts
+    async fn get_by_page(&self, page: u32) -> Result<Vec<GelbooruPost>, reqwest::Error> {
+        let builder = &self.0;
+        let url = builder.url.as_str();
+        let tag_string = builder.tags.join(" ");
+        let response = builder
+            .client
+            .get(format!("{url}/index.php"))
+            .query(&[
+                ("page", "dapi"),
+                ("s", "post"),
+                ("q", "index"),
+                ("limit", builder.limit.to_string().as_str()),
+                ("tags", &tag_string),
+                ("pid", &(builder.limit * page).to_string()),
+                ("json", "1"),
+            ])
+            .send()
+            .await?
+            .json::<GelbooruResponse>()
+            .await?;
+
+        Ok(response.posts)
+    }
 }

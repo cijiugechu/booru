@@ -133,6 +133,19 @@ mod danbooru {
     }
 
     #[tokio::test]
+    async fn get_by_page() {
+        let posts = DanbooruClient::builder()
+            .default_url("https://testbooru.donmai.us")
+            .tag("kafuu_chino")
+            .limit(5)
+            .build()
+            .get_by_page(2)
+            .await;
+
+        assert!(posts.is_ok());
+    }
+
+    #[tokio::test]
     async fn builder_with_extra_http_config() {
         let http_client_builder =
             reqwest::ClientBuilder::new().proxy(Proxy::http("http://127.0.0.1:7890").unwrap());

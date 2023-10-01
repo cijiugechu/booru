@@ -82,4 +82,26 @@ impl Client for DanbooruClient {
 
         Ok(response)
     }
+
+    /// Pack the [`ClientBuilder`] and sent the request to the API to retrieve the posts
+    async fn get_by_page(&self, page: u32) -> Result<Vec<Self::Post>, reqwest::Error> {
+        let builder = &self.0;
+        let tag_string = builder.tags.join(" ");
+        let url = builder.url.as_str();
+        let response = builder
+            .client
+            .get(format!("{url}/posts.json"))
+            .headers(get_headers())
+            .query(&[
+                ("limit", builder.limit.to_string().as_str()),
+                ("tags", &tag_string),
+                ("page", &page.to_string()),
+            ])
+            .send()
+            .await?
+            .json::<Vec<DanbooruPost>>()
+            .await?;
+
+        Ok(response)
+    }
 }

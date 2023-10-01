@@ -112,6 +112,19 @@ mod gelbooru {
         assert_eq!("e40b797a0e26755b2c0dd7a34d8c95ce", post.unwrap().md5);
     }
 
+    #[tokio::test]
+    async fn get_by_page() {
+        let posts = GelbooruClient::builder()
+            .tag("kafuu_chino")
+            .limit(3)
+            .build()
+            .get_by_page(2)
+            .await;
+
+        assert!(posts.is_ok());
+        assert!(!posts.unwrap().is_empty());
+    }
+
     #[test]
     fn parse_rating_tags() {
         assert_eq!("explicit", GelbooruRating::Explicit.to_string());

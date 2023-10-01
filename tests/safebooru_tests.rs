@@ -112,6 +112,19 @@ mod safebooru {
         assert_eq!("3e407a7848804119f1064c2aac731545", post.unwrap().hash);
     }
 
+    #[tokio::test]
+    async fn get_by_page() {
+        let posts = SafebooruClient::builder()
+            .tag("kafuu_chino")
+            .limit(3)
+            .build()
+            .get_by_page(2)
+            .await;
+
+        assert!(posts.is_ok());
+        assert!(!posts.unwrap().is_empty());
+    }
+
     #[test]
     fn parse_rating_tags() {
         assert_eq!("safe", SafebooruRating::Safe.to_string());

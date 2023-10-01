@@ -111,6 +111,19 @@ mod rule34 {
         assert!(post.is_ok());
     }
 
+    #[tokio::test]
+    async fn get_by_page() {
+        let posts = Rule34Client::builder()
+            .tag("kafuu_chino")
+            .limit(3)
+            .build()
+            .get_by_page(2)
+            .await;
+
+        assert!(posts.is_ok());
+        assert!(!posts.unwrap().is_empty());
+    }
+
     #[test]
     fn parse_rating_tags() {
         assert_eq!("explicit", Rule34Rating::Explicit.to_string());
