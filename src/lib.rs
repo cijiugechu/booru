@@ -1,21 +1,39 @@
-//! ### Usage
+#![doc = include_str!("../README.md")]
+
+//! ### Get by page
+//!
 //! ```
-//! use booru::{danbooru::{DanbooruClient, DanbooruRating}, Sort, Client};
+//! use booru::{danbooru::DanbooruClient, Client};
 //!
 //! #[tokio::main]
 //! async fn main() {
 //!     let posts = DanbooruClient::builder()
-//!         .rating(DanbooruRating::General)
-//!         .sort(Sort::Score)
+//!         .tag("kafuu_chino")
+//!         .limit(5)
 //!         .build()
-//!         .get()
+//!         .get_by_page(2)
 //!         .await
-//!         .expect("There was an error. (•-•)");
+//!         .expect("There was an error retrieving posts from the API");
 //!
-//!     match posts.first() {
-//!         Some(post) => println!("{:?}", post),
-//!         None => panic!("Well... \"No posts found?\""),
-//!     }
+//!     println!("{:?}", posts);
+//! }
+//! ```
+
+//! ### Get by popular
+//!
+//! ```
+//! use booru::{danbooru::DanbooruClient, Client};
+//!
+//! #[tokio::main]
+//! async fn main() {
+//!     let posts = DanbooruClient::builder()
+//!         .limit(5)
+//!         .build()
+//!         .get_popular()
+//!         .await
+//!         .expect("There was an error retrieving posts from the API");
+//!
+//!     println!("{:?}", posts);
 //! }
 //! ```
 

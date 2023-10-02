@@ -13,6 +13,7 @@ The client currently supports:
 - [x] Rule 34
 
 ## Example
+
 Remember to bring the `Client` trait into scope with `use booru::client::Client;`.
 ```rust
 use booru::{
@@ -20,35 +21,47 @@ use booru::{
         model::gelbooru::GelbooruRating,
     };
 
-let posts = GelbooruClient::builder()
-    .tag("kafuu_chino")
-    .tag("2girls")
-    .rating(GelbooruRating::General)
-    .sort(GelbooruSort::Score)
-    .limit(5)
-    .random(true)
-    .blacklist_tag(GelbooruRating::Explicit)
-    .build()
-    .get()
-    .await
-    .expect("There was an error retrieving posts from the API");
+#[tokio::main]
+async fn main() {
+    let posts = GelbooruClient::builder()
+        .tag("kafuu_chino")
+        .tag("2girls")
+        .rating(GelbooruRating::General)
+        .sort(Sort::Score)
+        .limit(5)
+        .random()
+        .blacklist_tag(GelbooruRating::Explicit)
+        .build()
+        .get()
+        .await
+        .expect("There was an error retrieving posts from the API");
+}
+```
 
-// If you want to customize http client, you can use `builder_with_http_client`:
-let http_client_builder = reqwest::ClientBuilder::new()
-                          .proxy(reqwest::Proxy::http("http://127.0.0.1:7890").unwrap());
+### Customize http client
 
-let posts = GelbooruClient::builder_with_http_client(http_client_builder)
-    .tag("kafuu_chino")
-    .tag("2girls")
-    .rating(GelbooruRating::General)
-    .sort(GelbooruSort::Score)
-    .limit(5)
-    .random(true)
-    .blacklist_tag(GelbooruRating::Explicit)
-    .build()
-    .get()
-    .await
-    .expect("There was an error retrieving posts from the API");
+If you want to customize http client, you can use `builder_with_http_client`:
+```rust
+use booru::{
+        client::{gelbooru::GelbooruClient, generic::*, Client},
+        model::gelbooru::GelbooruRating,
+    };
+use reqwest;
+use std::time::Duration;
+
+#[tokio::main]
+async fn main() {
+    let http_client_builder = reqwest::ClientBuilder::new()
+                            .timeout(Duration::from_secs(10));
+
+    let posts = GelbooruClient::builder_with_http_client(http_client_builder)
+        .tag("kafuu_chino")
+        .limit(5)
+        .build()
+        .get()
+        .await
+        .expect("There was an error retrieving posts from the API");
+}
 ```
 
 [ci-badge]: https://img.shields.io/github/actions/workflow/status/cijiugechu/booru/ci.yml?branch=main
