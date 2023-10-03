@@ -38,7 +38,7 @@
 //! ```
 
 //! ### Get Autocomplete
-//! 
+//!
 //! ```rust
 #![doc = include_str!("../examples/get_autocomplete.rs")]
 //! ```
