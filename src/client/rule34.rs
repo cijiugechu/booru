@@ -1,7 +1,7 @@
 use async_trait::async_trait;
 use itoa::Buffer;
 
-use super::{Client, ClientBuilder};
+use super::{generic::AutoCompleteItem, Client, ClientBuilder};
 use crate::model::rule34::*;
 
 /// Client that sends requests to the Rule34 API to retrieve the data.
@@ -109,6 +109,24 @@ impl Client for Rule34Client {
             .send()
             .await?
             .json::<Vec<Rule34Post>>()
+            .await?;
+
+        Ok(response)
+    }
+
+    async fn get_autocomplete<Input: Into<String> + Send>(
+        &self,
+        input: Input,
+    ) -> Result<Vec<AutoCompleteItem>, reqwest::Error> {
+        let builder = &self.0;
+        let url = "https://rule34.xxx/public/autocomplete.php";
+        let response = builder
+            .client
+            .get(url)
+            .query(&[("q", &input.into())])
+            .send()
+            .await?
+            .json::<Vec<AutoCompleteItem>>()
             .await?;
 
         Ok(response)

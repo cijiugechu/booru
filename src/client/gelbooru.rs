@@ -1,7 +1,7 @@
 use async_trait::async_trait;
 use itoa::Buffer;
 
-use super::{Client, ClientBuilder};
+use super::{generic::AutoCompleteItem, Client, ClientBuilder};
 use crate::model::gelbooru::*;
 
 /// Client that sends requests to the Gelbooru API to retrieve the data.
@@ -112,5 +112,28 @@ impl Client for GelbooruClient {
             .await?;
 
         Ok(response.posts)
+    }
+
+    async fn get_autocomplete<Input: Into<String> + Send>(
+        &self,
+        input: Input,
+    ) -> Result<Vec<AutoCompleteItem>, reqwest::Error> {
+        let builder = &self.0;
+        let url = builder.url.as_str();
+        let response = builder
+            .client
+            .get(format!("{url}/index.php"))
+            .query(&[
+                ("page", "autocomplete2"),
+                ("type", "tag_query"),
+                ("term", &input.into()),
+                ("limit", Buffer::new().format(builder.limit)),
+            ])
+            .send()
+            .await?
+            .json::<Vec<AutoCompleteItem>>()
+            .await?;
+
+        Ok(response)
     }
 }

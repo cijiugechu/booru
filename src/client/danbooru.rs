@@ -1,4 +1,4 @@
-use super::{Client, ClientBuilder};
+use super::{generic::AutoCompleteItem, Client, ClientBuilder};
 use crate::model::danbooru::*;
 
 use async_trait::async_trait;
@@ -101,6 +101,30 @@ impl Client for DanbooruClient {
             .send()
             .await?
             .json::<Vec<DanbooruPost>>()
+            .await?;
+
+        Ok(response)
+    }
+
+    async fn get_autocomplete<Input: Into<String> + Send>(
+        &self,
+        input: Input,
+    ) -> Result<Vec<AutoCompleteItem>, reqwest::Error> {
+        let builder = &self.0;
+        let url = builder.url.as_str();
+        let response = builder
+            .client
+            .get(format!("{url}/autocomplete.json"))
+            .headers(get_headers())
+            .query(&[
+                ("limit", Buffer::new().format(builder.limit)),
+                ("search[type]", "tag_query"),
+                ("search[query]", &input.into()),
+                ("version", "1"),
+            ])
+            .send()
+            .await?
+            .json::<Vec<AutoCompleteItem>>()
             .await?;
 
         Ok(response)

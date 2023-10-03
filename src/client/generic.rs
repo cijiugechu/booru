@@ -2,6 +2,7 @@ use crate::model::{
     danbooru::DanbooruRating, gelbooru::GelbooruRating, konachan::KonachanRating,
     rule34::Rule34Rating, safebooru::SafebooruRating,
 };
+use serde::{Deserialize, Serialize};
 use std::fmt;
 
 pub enum Rating {
@@ -59,4 +60,10 @@ impl fmt::Display for Sort {
         let lowercase_tag = format!("{:?}", self).to_lowercase();
         write!(f, "{lowercase_tag}")
     }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AutoCompleteItem {
+    pub value: String,
+    pub label: String,
 }

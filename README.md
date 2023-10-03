@@ -38,7 +38,7 @@ async fn main() {
 }
 ```
 
-### Customize http client
+### Customizing http client
 
 If you want to customize http client, you can use `builder_with_http_client`:
 ```rust

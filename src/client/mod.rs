@@ -5,7 +5,7 @@ use async_trait::async_trait;
 use self::{
     danbooru::DanbooruClient,
     gelbooru::GelbooruClient,
-    generic::{Rating, Sort},
+    generic::{AutoCompleteItem, Rating, Sort},
     konachan::KonachanClient,
     rule34::Rule34Client,
     safebooru::SafebooruClient,
@@ -59,6 +59,10 @@ pub trait Client: From<ClientBuilder<Self>> + Any {
     async fn get(&self) -> Result<Vec<Self::Post>, reqwest::Error>;
     async fn get_popular(&self) -> Result<Vec<Self::Post>, reqwest::Error>;
     async fn get_by_page(&self, page: u32) -> Result<Vec<Self::Post>, reqwest::Error>;
+    async fn get_autocomplete<Input: Into<String> + Send>(
+        &self,
+        input: Input,
+    ) -> Result<Vec<AutoCompleteItem>, reqwest::Error>;
 }
 
 impl<T: Client + Any> ClientBuilder<T> {

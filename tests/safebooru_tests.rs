@@ -125,6 +125,18 @@ mod safebooru {
         assert!(!posts.unwrap().is_empty());
     }
 
+    #[tokio::test]
+    async fn get_autocomplete() {
+        let posts = SafebooruClient::builder()
+            .limit(5)
+            .build()
+            .get_autocomplete("f")
+            .await;
+
+        assert!(posts.is_ok());
+        assert!(!posts.unwrap().is_empty());
+    }
+
     #[test]
     fn parse_rating_tags() {
         assert_eq!("safe", SafebooruRating::Safe.to_string());

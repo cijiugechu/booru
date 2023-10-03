@@ -37,11 +37,20 @@
 //! }
 //! ```
 
+//! ### Get Autocomplete
+//! 
+//! ```rust
+#![doc = include_str!("../examples/get_autocomplete.rs")]
+//! ```
+
 pub mod client;
 pub mod model;
 
 // Conveience
-pub use client::{generic::Sort, Client};
+pub use client::{
+    generic::{AutoCompleteItem, Sort},
+    Client,
+};
 
 pub mod safebooru {
     pub use crate::client::safebooru::*;

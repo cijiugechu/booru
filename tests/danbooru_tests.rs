@@ -146,6 +146,18 @@ mod danbooru {
     }
 
     #[tokio::test]
+    async fn get_autocomplete() {
+        let posts = DanbooruClient::builder()
+            .limit(5)
+            .build()
+            .get_autocomplete("f")
+            .await;
+
+        assert!(posts.is_ok());
+        assert!(!posts.unwrap().is_empty());
+    }
+
+    #[tokio::test]
     async fn builder_with_extra_http_config() {
         let http_client_builder =
             reqwest::ClientBuilder::new().proxy(Proxy::http("http://127.0.0.1:7890").unwrap());

@@ -1,7 +1,7 @@
 use async_trait::async_trait;
 use itoa::Buffer;
 
-use super::{Client, ClientBuilder};
+use super::{generic::AutoCompleteItem, Client, ClientBuilder};
 use crate::model::safebooru::SafebooruPost;
 
 pub struct SafebooruClient(ClientBuilder<Self>);
@@ -106,5 +106,23 @@ impl Client for SafebooruClient {
             .await?
             .json::<Vec<SafebooruPost>>()
             .await?)
+    }
+
+    async fn get_autocomplete<Input: Into<String> + Send>(
+        &self,
+        input: Input,
+    ) -> Result<Vec<AutoCompleteItem>, reqwest::Error> {
+        let builder = &self.0;
+        let url = "https://safebooru.org/autocomplete.php";
+        let response = builder
+            .client
+            .get(url)
+            .query(&[("q", &input.into())])
+            .send()
+            .await?
+            .json::<Vec<AutoCompleteItem>>()
+            .await?;
+
+        Ok(response)
     }
 }

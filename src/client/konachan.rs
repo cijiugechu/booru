@@ -1,4 +1,4 @@
-use super::{Client, ClientBuilder};
+use super::{generic::AutoCompleteItem, Client, ClientBuilder};
 use crate::model::konachan::*;
 
 use async_trait::async_trait;
@@ -108,5 +108,12 @@ impl Client for KonachanClient {
             .await?;
 
         Ok(response)
+    }
+
+    async fn get_autocomplete<Input: Into<String> + Send>(
+        &self,
+        _input: Input,
+    ) -> Result<Vec<AutoCompleteItem>, reqwest::Error> {
+        panic!("not implemented!");
     }
 }
