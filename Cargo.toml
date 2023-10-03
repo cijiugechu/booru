@@ -1,6 +1,6 @@
 [package]
 name = "booru"
-version = "0.3.7"
+version = "0.3.8"
 edition = "2021"
 authors = ["cijiugechu <cijiugechu@gmail.com>"]
 description = "An async Booru client for Rust"
