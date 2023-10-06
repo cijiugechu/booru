@@ -1,4 +1,4 @@
-![ci-badge][] [![crates.io version]][crates.io link] 
+[![Cargo](https://img.shields.io/crates/v/booru.svg)](https://crates.io/crates/booru) [![Documentation](https://docs.rs/booru/badge.svg)](https://docs.rs/booru)
 # `booru`
 An async Booru client for Rust.
 
@@ -63,7 +63,3 @@ async fn main() {
         .expect("There was an error retrieving posts from the API");
 }
 ```
-
-[ci-badge]: https://img.shields.io/github/actions/workflow/status/cijiugechu/booru/ci.yml?branch=main
-[crates.io link]: https://crates.io/crates/booru
-[crates.io version]: https://img.shields.io/crates/v/booru.svg?style=flat-square
