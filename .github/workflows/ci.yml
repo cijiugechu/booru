@@ -12,13 +12,10 @@ jobs:
       matrix:
         name:
           - stable
-          - beta
           - Windows
           - MacOS
 
         include:
-          - name: beta
-            toolchain: beta
           - name: Windows
             os: windows-latest
           - name: MacOS
