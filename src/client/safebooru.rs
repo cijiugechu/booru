@@ -1,4 +1,3 @@
-use async_trait::async_trait;
 use itoa::Buffer;
 
 use super::{generic::AutoCompleteItem, Client, ClientBuilder};
@@ -12,7 +11,6 @@ impl From<ClientBuilder<Self>> for SafebooruClient {
     }
 }
 
-#[async_trait]
 impl Client for SafebooruClient {
     type Post = SafebooruPost;
 
@@ -48,7 +46,7 @@ impl Client for SafebooruClient {
         let builder = &self.0;
         let url = builder.url.as_str();
         let tags = builder.tags.join(" ");
-        Ok(builder
+        builder
             .client
             .get(format!("{url}/index.php"))
             .query(&[
@@ -62,14 +60,14 @@ impl Client for SafebooruClient {
             .send()
             .await?
             .json::<Vec<SafebooruPost>>()
-            .await?)
+            .await
     }
 
     /// retrieve the most top rated posts
     async fn get_popular(&self) -> Result<Vec<Self::Post>, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
-        Ok(builder
+        builder
             .client
             .get(format!("{url}/index.php"))
             .query(&[
@@ -83,14 +81,14 @@ impl Client for SafebooruClient {
             .send()
             .await?
             .json::<Vec<SafebooruPost>>()
-            .await?)
+            .await
     }
 
     async fn get_by_page(&self, page: u32) -> Result<Vec<Self::Post>, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
         let tags = builder.tags.join(" ");
-        Ok(builder
+        builder
             .client
             .get(format!("{url}/index.php"))
             .query(&[
@@ -105,7 +103,7 @@ impl Client for SafebooruClient {
             .send()
             .await?
             .json::<Vec<SafebooruPost>>()
-            .await?)
+            .await
     }
 
     async fn get_autocomplete<Input: Into<String> + Send>(

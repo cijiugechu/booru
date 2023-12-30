@@ -1,4 +1,3 @@
-use async_trait::async_trait;
 use itoa::Buffer;
 
 use super::{generic::AutoCompleteItem, Client, ClientBuilder};
@@ -13,7 +12,6 @@ impl From<ClientBuilder<Self>> for GelbooruClient {
     }
 }
 
-#[async_trait]
 impl Client for GelbooruClient {
     type Post = GelbooruPost;
 

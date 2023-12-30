@@ -1,6 +1,6 @@
-use std::any::{Any, TypeId};
+#![allow(async_fn_in_trait)]
 
-use async_trait::async_trait;
+use std::any::{Any, TypeId};
 
 use self::{
     danbooru::DanbooruClient,
@@ -28,7 +28,6 @@ pub struct ClientBuilder<T: Client> {
     _marker: std::marker::PhantomData<T>,
 }
 
-#[async_trait]
 pub trait Client: From<ClientBuilder<Self>> + Any {
     type Post;
 

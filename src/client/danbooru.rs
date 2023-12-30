@@ -1,7 +1,6 @@
 use super::{generic::AutoCompleteItem, Client, ClientBuilder};
 use crate::model::danbooru::*;
 
-use async_trait::async_trait;
 use itoa::Buffer;
 use reqwest::{header, header::HeaderMap};
 
@@ -24,7 +23,6 @@ impl From<ClientBuilder<Self>> for DanbooruClient {
     }
 }
 
-#[async_trait]
 impl Client for DanbooruClient {
     type Post = DanbooruPost;
 
