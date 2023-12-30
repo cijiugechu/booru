@@ -121,6 +121,7 @@ impl Client for Rule34Client {
         let response = builder
             .client
             .get(url)
+            .header("Referer", "https://rule34.xxx/")
             .query(&[("q", &input.into())])
             .send()
             .await?
