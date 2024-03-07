@@ -58,7 +58,7 @@ pub trait Client: From<ClientBuilder<Self>> + Any {
     async fn get(&self) -> Result<Vec<Self::Post>, reqwest::Error>;
     async fn get_popular(&self) -> Result<Vec<Self::Post>, reqwest::Error>;
     async fn get_by_page(&self, page: u32) -> Result<Vec<Self::Post>, reqwest::Error>;
-    async fn get_autocomplete<Input: Into<String> + Send>(
+    async fn get_autocomplete<Input: Into<String> + Send + std::fmt::Debug>(
         &self,
         input: Input,
     ) -> Result<Vec<AutoCompleteItem>, reqwest::Error>;

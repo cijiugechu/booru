@@ -30,6 +30,7 @@ impl Client for DanbooruClient {
     const SORT: &'static str = "order:";
 
     /// Directly get a post by its unique Id
+    #[tracing::instrument(skip(self))]
     async fn get_by_id(&self, id: u32) -> Result<Self::Post, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
@@ -45,6 +46,7 @@ impl Client for DanbooruClient {
     }
 
     /// Pack the [`ClientBuilder`] and sent the request to the API to retrieve the posts
+    #[tracing::instrument(skip(self))]
     async fn get(&self) -> Result<Vec<Self::Post>, reqwest::Error> {
         let builder = &self.0;
         let tag_string = builder.tags.join(" ");
@@ -66,6 +68,7 @@ impl Client for DanbooruClient {
     }
 
     /// retrieve the most top rated posts
+    #[tracing::instrument(skip(self))]
     async fn get_popular(&self) -> Result<Vec<Self::Post>, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
@@ -83,6 +86,7 @@ impl Client for DanbooruClient {
     }
 
     /// Pack the [`ClientBuilder`] and sent the request to the API to retrieve the posts
+    #[tracing::instrument(skip(self))]
     async fn get_by_page(&self, page: u32) -> Result<Vec<Self::Post>, reqwest::Error> {
         let builder = &self.0;
         let tag_string = builder.tags.join(" ");
@@ -104,7 +108,8 @@ impl Client for DanbooruClient {
         Ok(response)
     }
 
-    async fn get_autocomplete<Input: Into<String> + Send>(
+    #[tracing::instrument(skip(self))]
+    async fn get_autocomplete<Input: Into<String> + Send + std::fmt::Debug>(
         &self,
         input: Input,
     ) -> Result<Vec<AutoCompleteItem>, reqwest::Error> {

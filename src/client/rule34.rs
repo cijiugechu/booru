@@ -19,6 +19,7 @@ impl Client for Rule34Client {
     const SORT: &'static str = "sort:";
 
     /// Directly get a post by its unique Id
+    #[tracing::instrument(skip(self))]
     async fn get_by_id(&self, id: u32) -> Result<Rule34Post, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
@@ -41,6 +42,7 @@ impl Client for Rule34Client {
     }
 
     /// Pack the [`ClientBuilder`] and sent the request to the API to retrieve the posts
+    #[tracing::instrument(skip(self))]
     async fn get(&self) -> Result<Vec<Rule34Post>, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
@@ -65,6 +67,7 @@ impl Client for Rule34Client {
     }
 
     /// retrieve the most top rated posts
+    #[tracing::instrument(skip(self))]
     async fn get_popular(&self) -> Result<Vec<Rule34Post>, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
@@ -88,6 +91,7 @@ impl Client for Rule34Client {
     }
 
     /// Pack the [`ClientBuilder`] and sent the request to the API to retrieve the posts
+    #[tracing::instrument(skip(self))]
     async fn get_by_page(&self, page: u32) -> Result<Vec<Rule34Post>, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
@@ -112,7 +116,8 @@ impl Client for Rule34Client {
         Ok(response)
     }
 
-    async fn get_autocomplete<Input: Into<String> + Send>(
+    #[tracing::instrument(skip(self))]
+    async fn get_autocomplete<Input: Into<String> + Send + std::fmt::Debug>(
         &self,
         input: Input,
     ) -> Result<Vec<AutoCompleteItem>, reqwest::Error> {

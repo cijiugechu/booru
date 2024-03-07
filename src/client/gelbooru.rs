@@ -19,6 +19,7 @@ impl Client for GelbooruClient {
     const SORT: &'static str = "sort:";
 
     /// Directly get a post by its unique Id
+    #[tracing::instrument(skip(self))]
     async fn get_by_id(&self, id: u32) -> Result<GelbooruPost, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
@@ -41,6 +42,7 @@ impl Client for GelbooruClient {
     }
 
     /// Pack the [`ClientBuilder`] and sent the request to the API to retrieve the posts
+    #[tracing::instrument(skip(self))]
     async fn get(&self) -> Result<Vec<GelbooruPost>, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
@@ -65,6 +67,7 @@ impl Client for GelbooruClient {
     }
 
     /// retrieve the most top rated posts
+    #[tracing::instrument(skip(self))]
     async fn get_popular(&self) -> Result<Vec<GelbooruPost>, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
@@ -88,6 +91,7 @@ impl Client for GelbooruClient {
     }
 
     /// Pack the [`ClientBuilder`] and sent the request to the API to retrieve the posts
+    #[tracing::instrument(skip(self))]
     async fn get_by_page(&self, page: u32) -> Result<Vec<GelbooruPost>, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
@@ -112,7 +116,8 @@ impl Client for GelbooruClient {
         Ok(response.posts)
     }
 
-    async fn get_autocomplete<Input: Into<String> + Send>(
+    #[tracing::instrument(skip(self))]
+    async fn get_autocomplete<Input: Into<String> + Send + std::fmt::Debug>(
         &self,
         input: Input,
     ) -> Result<Vec<AutoCompleteItem>, reqwest::Error> {

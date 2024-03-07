@@ -17,6 +17,7 @@ impl Client for SafebooruClient {
     const URL: &'static str = "https://safebooru.org";
     const SORT: &'static str = "sort:";
 
+    #[tracing::instrument(skip(self))]
     async fn get_by_id(&self, id: u32) -> Result<Self::Post, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
@@ -42,6 +43,7 @@ impl Client for SafebooruClient {
             .expect("Requested an id that does not exist."))
     }
 
+    #[tracing::instrument(skip(self))]
     async fn get(&self) -> Result<Vec<Self::Post>, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
@@ -64,6 +66,7 @@ impl Client for SafebooruClient {
     }
 
     /// retrieve the most top rated posts
+    #[tracing::instrument(skip(self))]
     async fn get_popular(&self) -> Result<Vec<Self::Post>, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
@@ -84,6 +87,7 @@ impl Client for SafebooruClient {
             .await
     }
 
+    #[tracing::instrument(skip(self))]
     async fn get_by_page(&self, page: u32) -> Result<Vec<Self::Post>, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
@@ -106,7 +110,8 @@ impl Client for SafebooruClient {
             .await
     }
 
-    async fn get_autocomplete<Input: Into<String> + Send>(
+    #[tracing::instrument(skip(self))]
+    async fn get_autocomplete<Input: Into<String> + Send + std::fmt::Debug>(
         &self,
         input: Input,
     ) -> Result<Vec<AutoCompleteItem>, reqwest::Error> {
