@@ -9,7 +9,6 @@ The client currently supports:
 - [x] Gelbooru
 - [x] Safebooru
 - [x] Danbooru
-- [x] Konachan
 - [x] Rule 34
 
 ## Example

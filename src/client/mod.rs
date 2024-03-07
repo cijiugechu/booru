@@ -6,7 +6,6 @@ use self::{
     danbooru::DanbooruClient,
     gelbooru::GelbooruClient,
     generic::{AutoCompleteItem, Rating, Sort},
-    konachan::KonachanClient,
     rule34::Rule34Client,
     safebooru::SafebooruClient,
 };
@@ -14,7 +13,6 @@ use self::{
 pub mod danbooru;
 pub mod gelbooru;
 pub mod generic;
-pub mod konachan;
 pub mod rule34;
 pub mod safebooru;
 
@@ -120,15 +118,6 @@ impl<T: Client + Any> ClientBuilder<T> {
                     TypeId::of::<T>(),
                     TypeId::of::<SafebooruClient>(),
                     "{:?} `ClientBuilder` but tried to apply a Safebooru rating to it.",
-                    TypeId::of::<T>(),
-                );
-                format!("rating:{}", rating)
-            }
-            Rating::Konachan(rating) => {
-                assert_eq!(
-                    TypeId::of::<T>(),
-                    TypeId::of::<KonachanClient>(),
-                    "{:?} `ClientBuilder` but tried to apply a Konachan rating to it.",
                     TypeId::of::<T>(),
                 );
                 format!("rating:{}", rating)

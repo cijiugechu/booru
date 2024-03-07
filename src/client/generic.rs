@@ -1,6 +1,6 @@
 use crate::model::{
-    danbooru::DanbooruRating, gelbooru::GelbooruRating, konachan::KonachanRating,
-    rule34::Rule34Rating, safebooru::SafebooruRating,
+    danbooru::DanbooruRating, gelbooru::GelbooruRating, rule34::Rule34Rating,
+    safebooru::SafebooruRating,
 };
 use serde::{Deserialize, Serialize};
 use std::fmt;
@@ -9,7 +9,6 @@ pub enum Rating {
     Danbooru(DanbooruRating),
     Gelbooru(GelbooruRating),
     Safebooru(SafebooruRating),
-    Konachan(KonachanRating),
     Rule34(Rule34Rating),
 }
 
@@ -28,12 +27,6 @@ impl From<GelbooruRating> for Rating {
 impl From<SafebooruRating> for Rating {
     fn from(value: SafebooruRating) -> Self {
         Rating::Safebooru(value)
-    }
-}
-
-impl From<KonachanRating> for Rating {
-    fn from(value: KonachanRating) -> Self {
-        Rating::Konachan(value)
     }
 }
 

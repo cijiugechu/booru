@@ -30,6 +30,3 @@ tracing-subscriber = "0.3"
 
 [[example]]
 name = "get_popular"
-
-[[example]]
-name = "konachan"
