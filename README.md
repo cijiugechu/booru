@@ -62,3 +62,19 @@ async fn main() {
         .expect("There was an error retrieving posts from the API");
 }
 ```
+
+## Tests
+
+> [!WARNING]
+> To run the `gelbooru` tests, set the `GELBOORU_API_KEY` and
+> `GELBOORU_USER_ID` env variables, then run with `cargo test -- --nocapture
+> --ignored`.
+
+```bash
+# Run all tests except gelbooru
+cargo test -- --nocapture
+
+# Run all tests
+export GELBOORU_API_KEY="your_api_key"
+export GELBOORU_USER_ID="your_user_id"
+cargo test -- --nocapture --ignored
