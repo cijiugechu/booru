@@ -1,4 +1,4 @@
-use super::{generic::AutoCompleteItem, Client, ClientBuilder};
+use super::{Client, ClientBuilder, generic::AutoCompleteItem};
 use crate::model::danbooru::*;
 
 use itoa::Buffer;

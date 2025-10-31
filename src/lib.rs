@@ -48,8 +48,8 @@ pub mod model;
 
 // Conveience
 pub use client::{
-    generic::{AutoCompleteItem, Sort},
     Client,
+    generic::{AutoCompleteItem, Sort},
 };
 
 pub mod safebooru {

@@ -1,6 +1,6 @@
 mod rule34 {
     use booru::{
-        client::{generic::*, rule34::Rule34Client, Client},
+        client::{Client, generic::*, rule34::Rule34Client},
         model::rule34::Rule34Rating,
     };
 

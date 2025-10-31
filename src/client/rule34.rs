@@ -1,6 +1,6 @@
 use itoa::Buffer;
 
-use super::{generic::AutoCompleteItem, Client, ClientBuilder};
+use super::{Client, ClientBuilder, generic::AutoCompleteItem};
 use crate::model::rule34::*;
 
 /// Client that sends requests to the Rule34 API to retrieve the data.

@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod danbooru {
     use booru::{
-        client::{danbooru::DanbooruClient, generic::Sort, Client},
+        client::{Client, danbooru::DanbooruClient, generic::Sort},
         model::danbooru::DanbooruRating,
     };
     use reqwest::Proxy;

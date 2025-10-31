@@ -1,4 +1,4 @@
-use booru::{danbooru::DanbooruClient, Client};
+use booru::{Client, danbooru::DanbooruClient};
 
 #[tokio::main]
 async fn main() {

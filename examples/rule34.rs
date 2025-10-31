@@ -1,4 +1,4 @@
-use booru::{rule34::Rule34Client, Client};
+use booru::{Client, rule34::Rule34Client};
 
 #[tokio::main]
 async fn main() {

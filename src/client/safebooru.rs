@@ -1,6 +1,6 @@
 use itoa::Buffer;
 
-use super::{generic::AutoCompleteItem, Client, ClientBuilder};
+use super::{Client, ClientBuilder, generic::AutoCompleteItem};
 use crate::model::safebooru::SafebooruPost;
 
 pub struct SafebooruClient(ClientBuilder<Self>);
