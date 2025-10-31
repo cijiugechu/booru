@@ -1,12 +1,26 @@
 mod gelbooru {
     use booru::{
-        client::{gelbooru::GelbooruClient, generic::*, Client},
+        client::{Client, gelbooru::GelbooruClient, generic::*},
         model::gelbooru::GelbooruRating,
     };
 
+    fn get_credentials() -> Result<(String, String), std::env::VarError> {
+        let api_key = std::env::var("GELBOORU_API_KEY").inspect_err(|_| {
+            eprintln!("GELBOORU_API_KEY not set; set it to run this test");
+        })?;
+        let user_id = std::env::var("GELBOORU_USER_ID").inspect_err(|_| {
+            eprintln!("GELBOORU_USER_ID not set; set it to run this test");
+        })?;
+
+        Ok((api_key, user_id))
+    }
+
+    #[ignore]
     #[tokio::test]
     async fn get_posts_with_tag() {
+        let (api_key, user_id) = get_credentials().expect("Credentials required");
         let posts = GelbooruClient::builder()
+            .set_credentials(api_key, user_id)
             .tag("kafuu_chino")
             .build()
             .get()
@@ -16,9 +30,12 @@ mod gelbooru {
         assert!(!posts.unwrap().is_empty());
     }
 
+    #[ignore]
     #[tokio::test]
     async fn get_posts_with_rating() {
+        let (api_key, user_id) = get_credentials().expect("Credentials required");
         let posts = GelbooruClient::builder()
+            .set_credentials(api_key, user_id)
             .tag("kafuu_chino")
             .rating(GelbooruRating::General)
             .build()
@@ -29,9 +46,12 @@ mod gelbooru {
         assert!(!posts.unwrap().is_empty());
     }
 
+    #[ignore]
     #[tokio::test]
     async fn get_posts_with_sort() {
+        let (api_key, user_id) = get_credentials().expect("Credentials required");
         let posts = GelbooruClient::builder()
+            .set_credentials(api_key, user_id)
             .tag("kafuu_chino")
             .sort(Sort::Score)
             .build()
@@ -42,9 +62,12 @@ mod gelbooru {
         assert!(!posts.unwrap().is_empty());
     }
 
+    #[ignore]
     #[tokio::test]
     async fn get_posts_with_blacklist_tag() {
+        let (api_key, user_id) = get_credentials().expect("Credentials required");
         let posts = GelbooruClient::builder()
+            .set_credentials(api_key, user_id)
             .tag("kafuu_chino")
             .blacklist_tag(GelbooruRating::Explicit)
             .build()
@@ -55,9 +78,12 @@ mod gelbooru {
         assert!(!posts.unwrap().is_empty());
     }
 
+    #[ignore]
     #[tokio::test]
     async fn get_posts_with_limit() {
+        let (api_key, user_id) = get_credentials().expect("Credentials required");
         let posts = GelbooruClient::builder()
+            .set_credentials(api_key, user_id)
             .tag("kafuu_chino")
             .rating(GelbooruRating::General)
             .limit(3)
@@ -69,9 +95,12 @@ mod gelbooru {
         assert!(posts.unwrap().len() == 3);
     }
 
+    #[ignore]
     #[tokio::test]
     async fn get_posts_multiple_tags() {
+        let (api_key, user_id) = get_credentials().expect("Credentials required");
         let posts = GelbooruClient::builder()
+            .set_credentials(api_key, user_id)
             .tag("kafuu_chino")
             .tag("table")
             .limit(3)
@@ -83,9 +112,12 @@ mod gelbooru {
         assert!(!posts.unwrap().is_empty());
     }
 
+    #[ignore]
     #[tokio::test]
     async fn get_random_posts() {
+        let (api_key, user_id) = get_credentials().expect("Credentials required");
         let posts = GelbooruClient::builder()
+            .set_credentials(api_key, user_id)
             .tag("kafuu_chino")
             .random()
             .build()
@@ -96,25 +128,40 @@ mod gelbooru {
         assert!(!posts.unwrap().is_empty());
     }
 
+    #[ignore]
     #[tokio::test]
     async fn get_popular_posts() {
-        let posts = GelbooruClient::builder().build().get_popular().await;
+        let (api_key, user_id) = get_credentials().expect("Credentials required");
+        let posts = GelbooruClient::builder()
+            .set_credentials(api_key, user_id)
+            .build()
+            .get_popular()
+            .await;
 
         assert!(posts.is_ok());
         assert!(!posts.unwrap().is_empty());
     }
 
+    #[ignore]
     #[tokio::test]
     async fn get_post_by_id() {
-        let post = GelbooruClient::builder().build().get_by_id(7898595).await;
+        let (api_key, user_id) = get_credentials().expect("Credentials required");
+        let post = GelbooruClient::builder()
+            .set_credentials(api_key, user_id)
+            .build()
+            .get_by_id(7898595)
+            .await;
 
         assert!(post.is_ok());
         assert_eq!("e40b797a0e26755b2c0dd7a34d8c95ce", post.unwrap().md5);
     }
 
+    #[ignore]
     #[tokio::test]
     async fn get_by_page() {
+        let (api_key, user_id) = get_credentials().expect("Credentials required");
         let posts = GelbooruClient::builder()
+            .set_credentials(api_key, user_id)
             .tag("kafuu_chino")
             .limit(3)
             .build()
@@ -125,9 +172,12 @@ mod gelbooru {
         assert!(!posts.unwrap().is_empty());
     }
 
+    #[ignore]
     #[tokio::test]
     async fn get_autocomplete() {
+        let (api_key, user_id) = get_credentials().expect("Credentials required");
         let posts = GelbooruClient::builder()
+            .set_credentials(api_key, user_id)
             .limit(5)
             .build()
             .get_autocomplete("f")

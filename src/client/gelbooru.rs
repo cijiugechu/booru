@@ -1,6 +1,8 @@
 use itoa::Buffer;
+use reqwest::IntoUrl;
+use serde::de::DeserializeOwned;
 
-use super::{generic::AutoCompleteItem, Client, ClientBuilder};
+use super::{Client, ClientBuilder, generic::AutoCompleteItem};
 use crate::model::gelbooru::*;
 
 /// Client that sends requests to the Gelbooru API to retrieve the data.
@@ -9,6 +11,35 @@ pub struct GelbooruClient(ClientBuilder<Self>);
 impl From<ClientBuilder<Self>> for GelbooruClient {
     fn from(value: ClientBuilder<Self>) -> Self {
         Self(value)
+    }
+}
+
+impl GelbooruClient {
+    fn default_query(&self) -> Vec<(&str, &str)> {
+        if let (Some(api_ref), Some(user_ref)) = (&self.0.key, &self.0.user) {
+            let api = api_ref.as_str();
+            let user = user_ref.as_str();
+            return vec![("api_key", api), ("user_id", user)];
+        }
+        Vec::new()
+    }
+
+    async fn get<T: DeserializeOwned, U: IntoUrl>(
+        &self,
+        url: U,
+        query: &[(&str, &str)],
+    ) -> Result<T, reqwest::Error> {
+        let mut e_query = self.default_query();
+        e_query.extend(query);
+        self.0
+            .client
+            .get(url)
+            .query(&e_query)
+            .send()
+            .await?
+            .error_for_status()?
+            .json::<T>()
+            .await
     }
 }
 
@@ -23,21 +54,19 @@ impl Client for GelbooruClient {
     async fn get_by_id(&self, id: u32) -> Result<GelbooruPost, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
-        let response = builder
-            .client
-            .get(format!("{url}/index.php"))
-            .query(&[
-                ("page", "dapi"),
-                ("s", "post"),
-                ("q", "index"),
-                ("id", Buffer::new().format(id)),
-                ("json", "1"),
-            ])
-            .send()
-            .await?
-            .json::<GelbooruResponse>()
-            .await?;
 
+        let response = self
+            .get::<GelbooruResponse, _>(
+                format!("{url}/index.php"),
+                &[
+                    ("page", "dapi"),
+                    ("s", "post"),
+                    ("q", "index"),
+                    ("id", Buffer::new().format(id)),
+                    ("json", "1"),
+                ],
+            )
+            .await?;
         Ok(response.posts[0].clone())
     }
 
@@ -47,20 +76,18 @@ impl Client for GelbooruClient {
         let builder = &self.0;
         let url = builder.url.as_str();
         let tag_string = builder.tags.join(" ");
-        let response = builder
-            .client
-            .get(format!("{url}/index.php"))
-            .query(&[
-                ("page", "dapi"),
-                ("s", "post"),
-                ("q", "index"),
-                ("limit", Buffer::new().format(builder.limit)),
-                ("tags", &tag_string),
-                ("json", "1"),
-            ])
-            .send()
-            .await?
-            .json::<GelbooruResponse>()
+        let response = self
+            .get::<GelbooruResponse, _>(
+                format!("{url}/index.php"),
+                &[
+                    ("page", "dapi"),
+                    ("s", "post"),
+                    ("q", "index"),
+                    ("limit", Buffer::new().format(builder.limit)),
+                    ("tags", &tag_string),
+                    ("json", "1"),
+                ],
+            )
             .await?;
 
         Ok(response.posts)
@@ -71,20 +98,18 @@ impl Client for GelbooruClient {
     async fn get_popular(&self) -> Result<Vec<GelbooruPost>, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
-        let response = builder
-            .client
-            .get(format!("{url}/index.php"))
-            .query(&[
-                ("page", "dapi"),
-                ("s", "post"),
-                ("q", "index"),
-                ("limit", Buffer::new().format(builder.limit)),
-                ("tags", "sort:score:desc"),
-                ("json", "1"),
-            ])
-            .send()
-            .await?
-            .json::<GelbooruResponse>()
+        let response = self
+            .get::<GelbooruResponse, _>(
+                format!("{url}/index.php"),
+                &[
+                    ("page", "dapi"),
+                    ("s", "post"),
+                    ("q", "index"),
+                    ("limit", Buffer::new().format(builder.limit)),
+                    ("tags", "sort:score:desc"),
+                    ("json", "1"),
+                ],
+            )
             .await?;
 
         Ok(response.posts)
@@ -96,21 +121,19 @@ impl Client for GelbooruClient {
         let builder = &self.0;
         let url = builder.url.as_str();
         let tag_string = builder.tags.join(" ");
-        let response = builder
-            .client
-            .get(format!("{url}/index.php"))
-            .query(&[
-                ("page", "dapi"),
-                ("s", "post"),
-                ("q", "index"),
-                ("limit", Buffer::new().format(builder.limit)),
-                ("tags", &tag_string),
-                ("pid", Buffer::new().format(builder.limit * page)),
-                ("json", "1"),
-            ])
-            .send()
-            .await?
-            .json::<GelbooruResponse>()
+        let response = self
+            .get::<GelbooruResponse, _>(
+                format!("{url}/index.php"),
+                &[
+                    ("page", "dapi"),
+                    ("s", "post"),
+                    ("q", "index"),
+                    ("limit", Buffer::new().format(builder.limit)),
+                    ("tags", &tag_string),
+                    ("pid", Buffer::new().format(builder.limit * page)),
+                    ("json", "1"),
+                ],
+            )
             .await?;
 
         Ok(response.posts)
@@ -123,18 +146,16 @@ impl Client for GelbooruClient {
     ) -> Result<Vec<AutoCompleteItem>, reqwest::Error> {
         let builder = &self.0;
         let url = builder.url.as_str();
-        let response = builder
-            .client
-            .get(format!("{url}/index.php"))
-            .query(&[
-                ("page", "autocomplete2"),
-                ("type", "tag_query"),
-                ("term", &input.into()),
-                ("limit", Buffer::new().format(builder.limit)),
-            ])
-            .send()
-            .await?
-            .json::<Vec<AutoCompleteItem>>()
+        let response = self
+            .get::<Vec<AutoCompleteItem>, _>(
+                format!("{url}/index.php"),
+                &[
+                    ("page", "autocomplete2"),
+                    ("type", "tag_query"),
+                    ("term", &input.into()),
+                    ("limit", Buffer::new().format(builder.limit)),
+                ],
+            )
             .await?;
 
         Ok(response)
