@@ -130,7 +130,7 @@ impl Client for GelbooruClient {
                     ("q", "index"),
                     ("limit", Buffer::new().format(builder.limit)),
                     ("tags", &tag_string),
-                    ("pid", Buffer::new().format(builder.limit * page)),
+                    ("pid", Buffer::new().format(page)),
                     ("json", "1"),
                 ],
             )
